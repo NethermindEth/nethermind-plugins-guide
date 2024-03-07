@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "Run Fake CL Plugin": {
+      "commandName": "Project",
+      "commandLineArgs": "-c fakecl.cfg",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}
