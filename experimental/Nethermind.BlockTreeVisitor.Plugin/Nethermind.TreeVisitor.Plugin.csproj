@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>Nethermind.FakeCl.Plugin</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\nethermind\src\Nethermind\Nethermind.Api\Nethermind.Api.csproj" />
+    <ProjectReference Include="..\..\nethermind\src\Nethermind\Nethermind.Logging\Nethermind.Logging.csproj" />
+    <ProjectReference Include="..\..\nethermind\src\Nethermind\Nethermind.Merge.Plugin\Nethermind.Merge.Plugin.csproj" />
+    <ProjectReference Include="..\..\nethermind\src\Nethermind\Nethermind.Api\Nethermind.Api.csproj" />
+    <ProjectReference Include="..\..\nethermind\src\Nethermind\Nethermind.Merge.Plugin\Nethermind.Merge.Plugin.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="fakecl.cfg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="fakecl.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

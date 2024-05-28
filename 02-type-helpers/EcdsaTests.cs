@@ -14,5 +14,5 @@ namespace Nethermind.Evm.Test;
 [TestFixture]
 public class EcdsaTests
 {
-    
+
 }

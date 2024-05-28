@@ -23,7 +23,7 @@ public class NewPlugin : INethermindPlugin
     public Task Init(INethermindApi api)
     {
         _logger = api.LogManager.GetClassLogger();
-        _logger.Warn("Hello Ethereum");
+        if (_logger.IsWarn) _logger.Warn("Hello Ethereum");
         _api = api;
 
         return Task.CompletedTask;
