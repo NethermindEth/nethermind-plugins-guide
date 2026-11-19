@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <NethermindPlugin>true</NethermindPlugin>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="$(NethermindSourceDir)Nethermind.Init/Nethermind.Init.csproj" />
+  </ItemGroup>
+
+</Project>

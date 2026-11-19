@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <!-- Copies the plugin to artifacts/plugins after every build; see Directory.Build.targets. -->
+    <NethermindPlugin>true</NethermindPlugin>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="$(NethermindSourceDir)Nethermind.Init/Nethermind.Init.csproj" />
+  </ItemGroup>
+
+</Project>

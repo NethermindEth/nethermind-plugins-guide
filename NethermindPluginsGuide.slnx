@@ -1,0 +1,24 @@
+<Solution>
+  <Folder Name="/01-hello-plugin/">
+    <Project Path="01-hello-plugin/Nethermind.HelloPlugin/Nethermind.HelloPlugin.csproj" />
+    <Project Path="01-hello-plugin/Nethermind.HelloPlugin.Test/Nethermind.HelloPlugin.Test.csproj" />
+  </Folder>
+  <Folder Name="/02-core-types/">
+    <Project Path="02-core-types/Nethermind.CoreTypes.Test/Nethermind.CoreTypes.Test.csproj" />
+  </Folder>
+  <Folder Name="/03-json-rpc/">
+    <Project Path="03-json-rpc/Nethermind.AccountRpcPlugin/Nethermind.AccountRpcPlugin.csproj" />
+    <Project Path="03-json-rpc/Nethermind.AccountRpcPlugin.Test/Nethermind.AccountRpcPlugin.Test.csproj" />
+  </Folder>
+  <Folder Name="/04-block-tracer/">
+    <Project Path="04-block-tracer/Nethermind.GasLeaderPlugin/Nethermind.GasLeaderPlugin.csproj" />
+    <Project Path="04-block-tracer/Nethermind.GasLeaderPlugin.Test/Nethermind.GasLeaderPlugin.Test.csproj" />
+  </Folder>
+  <Folder Name="/05-invalid-chain-dump/">
+    <Project Path="05-invalid-chain-dump/Nethermind.InvalidChainDump/Nethermind.InvalidChainDump.csproj" />
+    <Project Path="05-invalid-chain-dump/Nethermind.InvalidChainDump.Test/Nethermind.InvalidChainDump.Test.csproj" />
+  </Folder>
+  <Folder Name="/nethermind/">
+    <Project Path="nethermind/src/Nethermind/Nethermind.Runner/Nethermind.Runner.csproj" />
+  </Folder>
+</Solution>

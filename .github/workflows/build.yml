@@ -1,0 +1,50 @@
+name: Build and test
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+  schedule:
+    - cron: '0 6 * * 1'
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: ${{ matrix.nethermind == 'latest' && 'Latest Nethermind master' || 'Pinned Nethermind' }}
+    runs-on: ubuntu-latest
+    # On pushes and pull requests a break in the latest master is reported without blocking; the weekly run fails.
+    continue-on-error: ${{ matrix.nethermind == 'latest' && github.event_name != 'schedule' }}
+    strategy:
+      fail-fast: false
+      matrix:
+        # The pinned submodule is what the guide documents. The latest master is built weekly, so an API change that
+        # breaks the guide shows up within a week instead of when someone next tries the examples.
+        nethermind: ${{ github.event_name == 'schedule' && fromJSON('["latest"]') || fromJSON('["pinned", "latest"]') }}
+    steps:
+      - name: Check out the guide
+        uses: actions/checkout@v5
+        with:
+          submodules: true
+
+      - name: Move Nethermind to the latest master
+        if: matrix.nethermind == 'latest'
+        run: |
+          git -C nethermind fetch --depth 1 origin master
+          git -C nethermind checkout FETCH_HEAD
+          cp nethermind/global.json global.json
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          global-json-file: global.json
+
+      # Chapter 05 needs IInvalidBlockDumpHandler, which Nethermind has only from NethermindEth/nethermind#11030 on.
+      - name: Skip chapters the Nethermind version does not support
+        if: hashFiles('nethermind/src/Nethermind/Nethermind.Init/IInvalidBlockDumpHandler.cs') == ''
+        run: dotnet sln NethermindPluginsGuide.slnx remove 05-invalid-chain-dump/*/*.csproj
+
+      - name: Build
+        run: dotnet build NethermindPluginsGuide.slnx -c release
+
+      - name: Test
+        run: dotnet test --solution NethermindPluginsGuide.slnx -c release --no-build

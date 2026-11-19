@@ -1,0 +1,40 @@
+<Project>
+
+  <!--
+    A project with <NethermindPlugin>true</NethermindPlugin> is copied to artifacts/plugins after every build: the plugin
+    assembly and the dependencies the node does not ship itself. Point a node's plugins-dir option at artifacts/plugins, or copy
+    the folder's content to the plugins folder of an installed node (/nethermind/plugins in the Docker image).
+  -->
+  <PropertyGroup Condition="'$(NethermindPlugin)' == 'true'">
+    <NethermindRunnerDir>$(NethermindSourceDir)artifacts/bin/Nethermind.Runner/$(Configuration.ToLowerInvariant())/</NethermindRunnerDir>
+    <NethermindPluginsDir>$(MSBuildThisFileDirectory)artifacts/plugins/</NethermindPluginsDir>
+    <!-- Class libraries do not copy their NuGet dependencies by default; a plugin has to ship them. -->
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(NethermindPlugin)' == 'true'">
+    <!-- The node runs on the ASP.NET Core shared framework, so its assemblies must not be shipped as package copies. -->
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <!-- Builds the node first: its output tells which dependencies it already ships. -->
+    <ProjectReference Include="$(NethermindSourceDir)Nethermind.Runner/Nethermind.Runner.csproj" ReferenceOutputAssembly="false" Private="false" />
+  </ItemGroup>
+
+  <Target Name="CopyNethermindPlugin" AfterTargets="Build" Condition="'$(NethermindPlugin)' == 'true'">
+    <!-- Without the node's output every dependency would look missing from it and be shipped with the plugin. -->
+    <Error Condition="!Exists('$(NethermindRunnerDir)nethermind.dll')"
+      Text="The Nethermind runner output was not found in $(NethermindRunnerDir); build Nethermind.Runner in the same configuration first." />
+
+    <ItemGroup>
+      <_NethermindPluginFile Include="$(TargetPath)" />
+      <_NethermindPluginFile Include="$(TargetDir)$(TargetName).pdb" Condition="Exists('$(TargetDir)$(TargetName).pdb')" />
+      <_NethermindPluginFile Include="@(ReferenceCopyLocalPaths)" Condition="'%(ReferenceCopyLocalPaths.Extension)' == '.dll' AND '%(ReferenceCopyLocalPaths.DestinationSubDirectory)' == '' AND !Exists('$(NethermindRunnerDir)%(ReferenceCopyLocalPaths.Filename)%(ReferenceCopyLocalPaths.Extension)')" />
+      <!-- The node only loads assemblies from the top of its plugins folder, so files from subfolders (runtimes/<rid>/...) cannot be shipped as they are. -->
+      <_NethermindPluginSkippedFile Include="@(ReferenceCopyLocalPaths)" Condition="'%(ReferenceCopyLocalPaths.DestinationSubDirectory)' != '' AND '%(ReferenceCopyLocalPaths.AssetType)' != 'resources' AND !Exists('$(NethermindRunnerDir)%(ReferenceCopyLocalPaths.DestinationSubDirectory)%(ReferenceCopyLocalPaths.Filename)%(ReferenceCopyLocalPaths.Extension)')" />
+    </ItemGroup>
+
+    <Warning Condition="'@(_NethermindPluginSkippedFile)' != ''"
+      Text="Not shipped with the plugin, as the node does not load files from subfolders of its plugins folder: @(_NethermindPluginSkippedFile->'%(DestinationSubDirectory)%(Filename)%(Extension)', ', ')" />
+    <Copy SourceFiles="@(_NethermindPluginFile)" DestinationFolder="$(NethermindPluginsDir)" SkipUnchangedFiles="true" />
+  </Target>
+
+</Project>

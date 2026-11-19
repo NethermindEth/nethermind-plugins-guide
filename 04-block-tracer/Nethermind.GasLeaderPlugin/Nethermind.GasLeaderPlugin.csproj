@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <NethermindPlugin>true</NethermindPlugin>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Nethermind.GasLeaderPlugin.Test" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="$(NethermindSourceDir)Nethermind.Init/Nethermind.Init.csproj" />
+  </ItemGroup>
+
+</Project>

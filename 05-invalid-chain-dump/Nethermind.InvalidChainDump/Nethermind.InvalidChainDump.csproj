@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <NethermindPlugin>true</NethermindPlugin>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Nethermind.InvalidChainDump.Test" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AWSSDK.S3" />
+    <ProjectReference Include="$(NethermindSourceDir)Nethermind.Api/Nethermind.Api.csproj" />
+    <ProjectReference Include="$(NethermindSourceDir)Nethermind.Init/Nethermind.Init.csproj" />
+  </ItemGroup>
+
+</Project>

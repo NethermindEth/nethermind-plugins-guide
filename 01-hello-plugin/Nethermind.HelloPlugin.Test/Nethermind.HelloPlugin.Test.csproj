@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- The same test setup as the node's own tests: NUnit on Microsoft.Testing.Platform. -->
+  <Import Project="$(NethermindSourceDir)tests.props" />
+
+  <ItemGroup>
+    <ProjectReference Include="$(NethermindSourceDir)Nethermind.Core.Test/Nethermind.Core.Test.csproj" />
+    <ProjectReference Include="../Nethermind.HelloPlugin/Nethermind.HelloPlugin.csproj" />
+  </ItemGroup>
+
+</Project>

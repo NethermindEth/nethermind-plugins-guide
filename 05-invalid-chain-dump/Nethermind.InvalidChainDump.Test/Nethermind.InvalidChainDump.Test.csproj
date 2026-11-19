@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="$(NethermindSourceDir)tests.props" />
+
+  <ItemGroup>
+    <ProjectReference Include="$(NethermindSourceDir)Nethermind.Core.Test/Nethermind.Core.Test.csproj" />
+    <ProjectReference Include="../Nethermind.InvalidChainDump/Nethermind.InvalidChainDump.csproj" />
+  </ItemGroup>
+
+</Project>
